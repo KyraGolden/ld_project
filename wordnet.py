@@ -20,16 +20,16 @@ from nltk import word_tokenize, pos_tag, ne_chunk
 
 def findWord(userInput, text):
   """
-  still to do
+  still to do - check with other code
   """
   if userInput in text:
       return True
   else:
       return False
 
-def getRelationship(word1,word2):
-  compared1 = wn.synsets(word1)
-  compared2 = wn.synsets(word2)
+def getRelationship(synsets1,synsets2):
+  compared1 = synsets1
+  compared2 = synsets2
   for x in compared1:
       for y in compared2:
           score = x.wup_similarity(y)
@@ -50,11 +50,12 @@ def manuallyChooseDefinition():
   """
   word1 = input("What word do you want? ")
   listOfSynset = wn.synsets(word1)
-  print(wn.synsets(word1))
+  synsets = wn.synsets(word1)
+  print(synsets)
   option = input(("What option is it? " ))
-  meaning = listOfSynset[int(option)]
+  meaning = listOfSynset[int(option)-1]
   #todo get babelfy meaning and get it to compare to description. match the best
-  return meaning
+  return meaning, synsets
 
 def getLowestSynset(meaning1,meaning2):
   """
@@ -64,12 +65,10 @@ def getLowestSynset(meaning1,meaning2):
   return (meaning1.lowest_common_hypernyms(meaning2))
 
 def main():
-  meaning1 = manuallyChooseDefinition()
-  meaning2 = manuallyChooseDefinition()
+  meaning1,synsets1 = manuallyChooseDefinition()
+  meaning2,synsets2 = manuallyChooseDefinition()
+  getRelationship(synsets1,synsets2)
   getLowestSynset(meaning1,meaning2)
-
-
-  #getRelationship(word1,word2)
 
 if __name__ == '__main__':
     main()
